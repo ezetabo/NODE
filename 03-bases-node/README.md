@@ -1,4 +1,4 @@
-# 03-basese-node
+# 03-bases-node
 Contiene el desarrollo de una app de multiplicar
 
 ```
