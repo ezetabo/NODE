@@ -19,6 +19,14 @@ class Tareas {
         this._listado[tarea.id] = tarea;
     }
 
+    borrarTarea(id = '') {
+        if (this._listado[id]) {
+            delete this._listado[id];
+            return true
+        }
+        return false;
+    }
+
     cargarTareafromArray(info = []) {
         info.forEach(x => {
             this._listado[x.id] = x;
@@ -31,21 +39,40 @@ class Tareas {
         // })
         this.getListadoArray().forEach((tarea, pos, estado) => {
             estado = tarea.completadoEn != null ? "Completada".green : "Pendiente".red;
-            console.log(`${++pos}. ${tarea.descripcion} :: ${estado}`);
+            console.log(`${((++pos) + '.').magenta}. ${tarea.descripcion} :: ${estado}`);
         });
     }
 
     listarPorEstadoCompletadas(completada = true) {
-        let imprimir = completada ? "Completada".green : "Pendiente".red;
         let pos = 1;
-        this.getListadoArray().forEach((tarea, estado) => {
-            estado = tarea.completadoEn != null ? "Completada".green : "Pendiente".red;
-            if (imprimir === estado) {
-                console.log(`${pos++}. ${tarea.descripcion} :: ${estado}`);
+        this.getListadoArray().forEach((tarea) => {
+            if (completada) {
+                if (tarea.completadoEn) {
+                    console.log(`${((pos++) + '.').magenta} ${tarea.descripcion} :: ${tarea.completadoEn.green}`);
+                }
+            } else {
+                if (!tarea.completadoEn) {
+                    console.log(`${((pos++) + '.').magenta} ${tarea.descripcion} :: ${"Pendiente".red}`);
+                }
             }
+
         });
     }
 
+    toggleCompletdas(ids = []) {
+
+        ids.forEach(id => {
+            const tarea = this._listado[id];
+            if (!tarea.completadoEn) {
+                tarea.completadoEn = new Date().toLocaleDateString();
+            }
+        });
+        this.getListadoArray().forEach( tarea => {
+            if (!ids.includes(tarea.id)) {
+                this._listado[tarea.id].completadoEn = null;
+            }
+        });
+    }
 
 }
 
