@@ -61,6 +61,34 @@ const leerInput = async (mensaje) => {
     return desc;
 };
 
+const listarLugares = async (lugares = []) => {
+    const choices = lugares.map((lugar,i )=>{
+     const index =`${i + 1}.`.magenta;
+         return {
+             value: lugar.id,
+             name: `${index} ${lugar.nombre}`
+         }
+     });
+ 
+     choices.unshift({
+         value: '0',
+         name: `${'0'.magenta} Cancelar`
+     })
+ 
+     const preguntas = [{
+         type: 'list',
+         name: 'id',
+         message: 'seleccione su ciudad\n',
+         choices
+             
+     }];    
+ 
+     const { id } = await inquirer.prompt(preguntas)
+     return id;
+    
+ 
+ }
+
 const listadoTareasBorrar = async (tareas = []) => {
    const choices = tareas.map((tarea,i )=>{
     const index =`${i + 1}.`.magenta;
@@ -133,5 +161,6 @@ export {
     leerInput,
     listadoTareasBorrar,
     confirmar, 
-    listadoTareasCompletar
+    listadoTareasCompletar,
+    listarLugares
 }
